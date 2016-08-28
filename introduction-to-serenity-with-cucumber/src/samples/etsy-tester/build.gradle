@@ -32,14 +32,17 @@ dependencies {
 }
 
 tasks.withType(Test) {
-    systemProperty 'webdriver.driver', System.getProperty('webdriver.driver', 'chrome')
+    systemProperty 'webdriver.driver', System.getProperty('webdriver.driver', 'firefox')
     systemProperty 'tags', System.getProperty('tags', '')
 }
 
 //test {
 //    maxParallelForks = 2
+//  ignoreFailures = true
 //}
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '3.0'
 }
+
+gradle.startParameter.continueOnFailure = true

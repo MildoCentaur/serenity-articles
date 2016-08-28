@@ -12,16 +12,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-/**
- * Created by john on 18/11/14.
- */
 public class ItemDetailsPage extends PageObject {
 
     @FindBys({@FindBy(id="listing-page-cart"), @FindBy(tagName = "h1")})
     WebElement itemName;
 
+    @FindBy(className = "btn-transaction")
+    WebElement addToCart;
+
     public String getItemName() {
         return itemName.getText();
     }
 
+    public void addToCartItem() {
+        addToCart.click();
+    }
 }

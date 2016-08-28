@@ -4,15 +4,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.serenity_bdd.samples.etsy.features.steps.serenity.BuyerSteps;
+import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 
-// tag::header[]
 public class SearchByKeywordStepDefinitions {
     @Steps
     BuyerSteps buyer;
+    String searchTerm;
 
-    // end::header[]
-    // tag::woolscenario[]
     @Given("I want to buy (.*)")
     public void buyerWantsToBuy(String article) {
         buyer.opens_etsy_home_page();
@@ -27,9 +26,8 @@ public class SearchByKeywordStepDefinitions {
     public void resultsForACategoryAndKeywordInARegion(String keyword) {
         buyer.should_see_items_related_to(keyword);
     }
-    // end::woolscenario[]
 
-    String searchTerm;
+
 
     @Given("I have searched for items containing '(.*)'")
     public void buyerHasSearchedFor(String keyword) {
@@ -49,15 +47,14 @@ public class SearchByKeywordStepDefinitions {
         buyer.should_see_items_of_type(type);
     }
 
+    @Given("I have selected an item")
     @When("I select an item")
     public void selectsAnItem() {
-        buyer.selects_item_number(1);
+        buyer.selects_item_number(10);
     }
 
     @Then("I should see the corresponding item details")
     public void shouldSeeCorrespondingDetails() {
         buyer.should_see_matching_details(searchTerm);
     }
-// tag::tail[]
 }
-// end::tail[]

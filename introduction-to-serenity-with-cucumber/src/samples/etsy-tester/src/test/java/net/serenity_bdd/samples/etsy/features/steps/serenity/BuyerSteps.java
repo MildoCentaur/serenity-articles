@@ -4,22 +4,26 @@ import com.google.common.base.Optional;
 import net.serenity_bdd.samples.etsy.pages.HomePage;
 import net.serenity_bdd.samples.etsy.pages.ItemDetailsPage;
 import net.serenity_bdd.samples.etsy.pages.SearchResultsPage;
+import net.serenitybdd.core.Serenity;
+import net.thucydides.core.annotations.Screenshots;
 import net.thucydides.core.annotations.Step;
 import org.hamcrest.Matcher;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// tag::header[]
+
 public class BuyerSteps {
-// end::header[]
-// tag::searchByKeywordSteps[]
 
-    HomePage homePage;                                          // <1>
+    public static final int EXPECTED_ZERO_ELEMENTS = 0;
+    HomePage homePage;
     SearchResultsPage searchResultsPage;
+    ItemDetailsPage detailsPage;
 
-    @Step                                                       // <2>
+    @Step
     public void opens_etsy_home_page() {
         homePage.open();
     }
@@ -30,12 +34,13 @@ public class BuyerSteps {
     }
 
     @Step
+    @Screenshots(afterEachStep = true)
     public void should_see_items_related_to(String keywords) {
         List<String> resultTitles = searchResultsPage.getResultTitles();
-        resultTitles.stream().forEach(title -> assertThat(title.contains(keywords)));
+        assertThat(resultTitles.size()).isGreaterThan(EXPECTED_ZERO_ELEMENTS);
+
+        resultTitles.stream().forEach(title -> assertThat(title.toLowerCase()).contains(keywords.toLowerCase()));
     }
-// end::searchByKeywordSteps[]
-// tag::filterByType[]
     @Step
     public void filters_results_by_type(String type) {
         searchResultsPage.filterByType(type);
@@ -51,9 +56,7 @@ public class BuyerSteps {
     }
 
 
-// end::filterByType[]
 
-    ItemDetailsPage detailsPage;
 
     @Step
     public void selects_item_number(int number) {
@@ -67,12 +70,13 @@ public class BuyerSteps {
     }
 
     @Step
+    @Screenshots(afterEachStep = true)
     public void should_see_items_of_type(String type) {
         Optional<String> selectedType = searchResultsPage.getSelectedType();
         assertThat(selectedType.isPresent()).describedAs("No item type was selected").isTrue();
         assertThat(selectedType.get()).isEqualTo(type);
     }
 
-// tag::tail[]
+
 }
-//end:tail
+

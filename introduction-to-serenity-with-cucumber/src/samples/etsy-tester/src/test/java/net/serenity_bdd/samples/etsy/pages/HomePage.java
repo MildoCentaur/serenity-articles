@@ -3,6 +3,7 @@ package net.serenity_bdd.samples.etsy.pages;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.thoughtworks.selenium.webdriven.commands.WaitForCondition;
+import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.DefaultUrl;
 import net.thucydides.core.pages.PageObject;
 import org.openqa.selenium.By;
@@ -21,20 +22,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-// tag::header[]
-@DefaultUrl("http://www.etsy.com")                      // <1>
-public class HomePage extends PageObject {              // <2>
-// end::header[]
-// tag::searchByKeyword[]
+@DefaultUrl("http://www.etsy.com")
+public class HomePage extends PageObject {
 
-    @FindBy(css = "button[value='Search']")
-    WebElement searchButton;
+
+//    @FindBy(linkText = "Search")
+//    WebElement searchButton;
 
     public void searchFor(String keywords) {
-        $("#search-query").sendKeys(keywords);          // <3>
-        searchButton.click();                           // <4>
+        $("#search-query").type(keywords);
+        Serenity.takeScreenshot();
+        findAll(".as-suggestion").get(0).click();
     }
-// end::searchByKeyword[]
-// tag::tail[]
 }
-// end::tail[]
